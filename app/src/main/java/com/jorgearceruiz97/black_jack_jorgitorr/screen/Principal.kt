@@ -31,7 +31,7 @@ fun menuInicio(navController: NavHostController){
         Button(onClick = { navController.navigate(Routes.dosJugadores.routes) }) {
             Text(text = "2 PLAYERS")
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { navController.navigate(Routes.unJugador.routes)}) {
             Text(text = "PLAYER VS PC")
         }
     }
