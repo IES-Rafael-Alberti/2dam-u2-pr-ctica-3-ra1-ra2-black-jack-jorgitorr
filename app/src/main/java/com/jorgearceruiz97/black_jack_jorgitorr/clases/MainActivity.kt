@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.menuInicio.routes){ menuInicio(navController) }
                         composable(Routes.dosJugadores.routes){menu(navController)}
                         composable(Routes.unJugador.routes){menu2(navController)}
+
                     }
                 }
             }
