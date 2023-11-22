@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Black_jack_jorgitorr"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".clases.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Black_jack_jorgitorr">
