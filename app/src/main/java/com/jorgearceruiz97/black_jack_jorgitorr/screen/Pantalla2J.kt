@@ -26,10 +26,9 @@ import com.jorgearceruiz97.black_jack_jorgitorr.R
 import com.jorgearceruiz97.black_jack_jorgitorr.model.Routes
 import com.jorgearceruiz97.black_jack_jorgitorr.ui.theme.Black_jack_jorgitorrTheme
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun menu(){
-    //navController: NavHostController
+fun menu(navController: NavHostController){
     val imageModifier = Modifier
         .size(900.dp)
         .border(BorderStroke(1.dp, Color.Black))
