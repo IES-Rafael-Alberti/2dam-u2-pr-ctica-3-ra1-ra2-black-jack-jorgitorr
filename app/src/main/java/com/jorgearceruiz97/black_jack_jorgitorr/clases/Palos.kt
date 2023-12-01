@@ -1,9 +1,9 @@
 package com.jorgearceruiz97.black_jack_jorgitorr.clases
 
-enum class Palos(palo:String){
+enum class Palos(val palo:String){
 
-    c("CORAZONES"), t("TREVOL"), d("DIAMANTE"),
-    p("PICAS");
+    CORAZONES("CORAZONES"), TREBOL("TREBOL"), DIAMANTE("DIAMANTE"),
+    PICAS("PICAS"), CERO("CERO");
 
 
 }

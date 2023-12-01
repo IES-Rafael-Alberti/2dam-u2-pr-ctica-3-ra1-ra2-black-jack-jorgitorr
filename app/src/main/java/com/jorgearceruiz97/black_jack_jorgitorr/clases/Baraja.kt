@@ -1,7 +1,7 @@
 package com.jorgearceruiz97.black_jack_jorgitorr.clases
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import com.jorgearceruiz97.black_jack_jorgitorr.R
+import com.jorgearceruiz97.black_jack_jorgitorr.data.Carta
 
 
 class Baraja {
@@ -14,17 +14,15 @@ class Baraja {
          */
 
         fun crearBaraja(){
-            var palos = Palos.values()
             var naipes = Naipes.values()
 
-
-            for(palo in palos){
-                for(naipe in naipes){
-                    cartas.add(
-                        Carta(naipe,palo, naipe.valorMax, naipe.valorMin, 0)
-                    )
-                }
+            for (i in 1 until 13){
+                cartas.add(Carta(naipes[i],Palos.TREBOL, naipes[i].valorMax, naipes[i].valorMin,i))
+                cartas.add(Carta(naipes[i],Palos.CORAZONES, naipes[i].valorMax, naipes[i].valorMin,i))
+                cartas.add(Carta(naipes[i],Palos.DIAMANTE, naipes[i].valorMax, naipes[i].valorMin,i))
+                cartas.add(Carta(naipes[i],Palos.PICAS, naipes[i].valorMax, naipes[i].valorMin,i))
             }
+
         }
 
 
@@ -38,9 +36,14 @@ class Baraja {
          * @return devuelve la carta con la ultima carta de la baraja
          */
         fun dameCarta(): Carta {
-            var carta = cartas[cartas.size-1]
-            cartas.remove(carta)
-            return carta
+            if(cartas.size!=0){
+                var carta = cartas[cartas.size-1]
+                cartas.remove(carta)
+                return carta
+            }else{
+                return Carta(Naipes.CERO,Palos.CERO,0,0, R.drawable.facedown)
+            }
+
         }
 
     }
