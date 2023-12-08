@@ -1,7 +1,5 @@
-import android.os.Bundle
-import android.text.style.BackgroundColorSpan
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,20 +11,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jorgearceruiz97.black_jack_jorgitorr.R
 
+
+/**
+ *@param navController The navigation controller used for navigating to different screens
+ * @param highestCardViewModel The viewModel responsible for managing the Highest Card game logic
+ */
+@Composable
+fun HighestCardScreen(
+    navController: NavHostController,
+    highestCardViewModel: HighestCardViewModel
+){
+    val imagenId: Int by highestCardViewModel.imageId.observeAsState(initial = 0)
+    val descImagen: String by highestCardViewModel.imageDesc.observeAsState(initial = "")
+
+}
 
 //@Preview(showBackground = true)
 @Composable
@@ -40,7 +51,9 @@ fun menu2(navController: NavHostController){
     Image(painter = painterResource(id = R.drawable.fondo), contentDescription = "",
         contentScale = ContentScale.Crop,
         modifier = imageModifier)
-    Row (modifier = Modifier.fillMaxSize().padding(top = 50.dp),
+    Row (modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 50.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top){
         Image(painter = painterResource(id = R.drawable.facedown),
@@ -48,7 +61,9 @@ fun menu2(navController: NavHostController){
     }
 
     //carta maquina
-    Row (modifier = Modifier.fillMaxSize().padding(top = 250.dp),
+    Row (modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 250.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically){
         Image(painter = painterResource(id = R.drawable.facedown),

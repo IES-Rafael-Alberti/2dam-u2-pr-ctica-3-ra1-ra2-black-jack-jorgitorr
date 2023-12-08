@@ -1,4 +1,4 @@
-package com.jorgearceruiz97.black_jack_jorgitorr.clases
+package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data
 enum class Naipes(val valorMin:Int, val valorMax: Int){
     AS(1,11),DOS(2,2), TRES(3,3),
     CUATRO(4,4), CINCO(5,5),

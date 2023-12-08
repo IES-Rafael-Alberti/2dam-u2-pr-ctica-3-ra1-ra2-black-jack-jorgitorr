@@ -1,4 +1,4 @@
-package com.jorgearceruiz97.black_jack_jorgitorr.clases
+package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data
 
 enum class Palos(val palo:String){
 

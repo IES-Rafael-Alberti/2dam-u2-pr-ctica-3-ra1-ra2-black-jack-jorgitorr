@@ -1,7 +1,6 @@
-package com.jorgearceruiz97.black_jack_jorgitorr.clases
+package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data
 
 import com.jorgearceruiz97.black_jack_jorgitorr.R
-import com.jorgearceruiz97.black_jack_jorgitorr.data.Carta
 
 
 class Baraja {
@@ -17,10 +16,13 @@ class Baraja {
             var naipes = Naipes.values()
 
             for (i in 1 until 13){
-                cartas.add(Carta(naipes[i],Palos.TREBOL, naipes[i].valorMax, naipes[i].valorMin,i))
-                cartas.add(Carta(naipes[i],Palos.CORAZONES, naipes[i].valorMax, naipes[i].valorMin,i))
-                cartas.add(Carta(naipes[i],Palos.DIAMANTE, naipes[i].valorMax, naipes[i].valorMin,i))
-                cartas.add(Carta(naipes[i],Palos.PICAS, naipes[i].valorMax, naipes[i].valorMin,i))
+                cartas.add(Carta(naipes[i], Palos.TREBOL, naipes[i].valorMax, naipes[i].valorMin,i))
+                cartas.add(
+                    Carta(naipes[i],
+                    Palos.CORAZONES, naipes[i].valorMax, naipes[i].valorMin,i)
+                )
+                cartas.add(Carta(naipes[i], Palos.DIAMANTE, naipes[i].valorMax, naipes[i].valorMin,i))
+                cartas.add(Carta(naipes[i], Palos.PICAS, naipes[i].valorMax, naipes[i].valorMin,i))
             }
 
         }
@@ -41,9 +43,13 @@ class Baraja {
                 cartas.remove(carta)
                 return carta
             }else{
-                return Carta(Naipes.CERO,Palos.CERO,0,0, R.drawable.facedown)
+                return Carta(Naipes.CERO, Palos.CERO,0,0, R.drawable.facedown)
             }
+        }
 
+        fun dameCartaBocaAbajo(): Carta {
+            var carta = cartas[cartas.size]
+            return carta
         }
 
     }
