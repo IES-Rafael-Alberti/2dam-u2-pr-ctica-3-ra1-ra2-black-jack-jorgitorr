@@ -12,13 +12,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data.Routes
+import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.BlackJackScreen
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.BlackJackViewModel
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.HighestCardScreen
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.HighestCardViewModel
 import com.jorgearceruiz97.black_jack_jorgitorr.ui.theme.Black_jack_jorgitorrTheme
-import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.menu2
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.menuInicio
-import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.menuJugadorPc
 
 class MainActivity : ComponentActivity() {
     private val highestCardViewModel: HighestCardViewModel by viewModels()
@@ -34,13 +33,22 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     NavHost(navController = navController,startDestination = Routes.menuInicio.routes){
+                        //menu inicio
                         composable(Routes.menuInicio.routes){ menuInicio(navController) }
-                        composable(Routes.jugadorVsPc.routes){ menuJugadorPc(navController) }
-                        composable(Routes.dosJugadores.routes){ menu2(navController) }
+                        //HighestCard
                         composable(Routes.highestCard.routes){ HighestCardScreen(
                             navController = navController,
                             highestCardViewModel = highestCardViewModel
                         )}
+                        //blackJack 2 Jugadores
+                        composable(Routes.blackJack2Players.routes){ BlackJackScreen(
+                            navController = navController,
+                            blackjackviewmodel = blackJackViewModel
+                        )}
+
+                        //blackJack 1 jugador vs Maquina
+
+
                     }
                 }
             }

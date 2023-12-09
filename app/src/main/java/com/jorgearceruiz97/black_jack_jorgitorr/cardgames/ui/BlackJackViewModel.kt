@@ -9,7 +9,9 @@ import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data.Carta
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data.Player
 
 class BlackJackViewModel(application:Application):AndroidViewModel(application) {
-
+    /**
+     * logica del programa
+     */
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
 
@@ -23,18 +25,24 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
 
 
     private val _player1 = MutableLiveData<Player>()
+    val player1: LiveData<Player> = _player1
     private val _player2 = MutableLiveData<Player>()
+    val player2: LiveData<Player> = _player2
 
     private val _player1Name = MutableLiveData<String>()
-    val playerName : LiveData<String> = _player1Name
+    val player1Name : LiveData<String> = _player1Name
     private val _player2Name = MutableLiveData<String>()
     val player2Name : LiveData<String> = _player2Name
 
+
+    private val _turno = MutableLiveData<Boolean>()
+    val turno: LiveData<Boolean> = _turno
 
 
     init {
 
     }
+
 
 
 

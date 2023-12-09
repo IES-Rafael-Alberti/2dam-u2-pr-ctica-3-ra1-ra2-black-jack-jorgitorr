@@ -5,12 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,23 +39,22 @@ fun menuInicio(navController: NavHostController){
     Row(modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically){
+        Text(text = "ACTIVIDAD")
     }
+    Box(){
+        Row {
+            Button(onClick = { navController.navigate(Routes.blackJack1Player.routes) }) {
+                Text(text = "BJ 1 Player")
+            }
+            Button(onClick = { navController.navigate(Routes.blackJack2Players.routes)}) {
+                Text(text = "BJ 2 Players")
+            }
+            Button(onClick = { navController.navigate(Routes.highestCard.routes)}) {
+                Text(text = "Highest Card")
 
-    Row {
-        Button(onClick = { navController.navigate(Routes.jugadorVsPc.routes) }) {
-            Text(text = "BJ 1 Player")
-        }
-        Button(onClick = { navController.navigate(Routes.dosJugadores.routes)}) {
-            Text(text = "BJ 2 Players")
-        }
-        Button(onClick = { navController.navigate(Routes.highestCard.routes)}) {
-            Text(text = "Highest Card")
-
-        }
+            }
+        }    
     }
+    
 }
 
-
-fun insertarUsuario(){
-
-}

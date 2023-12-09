@@ -42,11 +42,11 @@ class HighestCardViewModel(application:Application): AndroidViewModel(applicatio
         _imageDesc.value = ""
     }
 
-    fun getCardsTotal(): String {
-        return Baraja.tamanioBaraja().toString()
+    fun getCardsTotal(): Int {
+        return Baraja.tamanioBaraja()
     }
 
-    fun btnGetCardEnabled() = Baraja.tamanioBaraja() > 1
+    fun btnGetCardEnabled() = Baraja.tamanioBaraja() >= 1
 
     fun btnResetDeckOfCardsEnabled() = Baraja.tamanioBaraja() < 52
 

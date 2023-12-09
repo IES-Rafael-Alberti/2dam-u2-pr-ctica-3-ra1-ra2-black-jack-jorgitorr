@@ -1,6 +1,6 @@
 package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data
 enum class Naipes(val valorMin:Int, val valorMax: Int){
-    CERO(0,0),
+    NINGUNA(0,0),
     AS(1,11),
     DOS(2,2),
     TRES(3,3),

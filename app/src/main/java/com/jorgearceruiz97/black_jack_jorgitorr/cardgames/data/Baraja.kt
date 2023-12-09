@@ -6,7 +6,7 @@ import com.jorgearceruiz97.black_jack_jorgitorr.R
 
 class Baraja {
     companion object {
-        private var cartas = ArrayList<Carta>()
+        private var cartas:ArrayList<Carta> = ArrayList()
 
 
         /**
@@ -15,50 +15,18 @@ class Baraja {
 
         fun crearBaraja(context: Context){
             cartas.clear()
-
             var puntosMax: Int
             var puntosMin: Int
 
-            for(palo in 1..4){
-                for(cont in 1..13){
-                    when(cont){
-                        1->{
-                            puntosMin = 1
-                            puntosMax = 11
-                        }
-                        11, 12, 13 ->{
-                            puntosMin = 10
-                            puntosMax = 10
-                        }
-                        else -> {
-                            puntosMin = cont
-                            puntosMax = cont
-                        }
-                    }
 
-                    cartas.add(
-                        Carta(Naipes.values()[cont],
-                            Palos.values()[palo],
-                            puntosMin,
-                            puntosMax,
-                            getIdDrawable(context,
-                                "${Naipes.values()[palo]}_${cont}")
+            var naipes = Naipes.values()
 
-                    ))
-                }
-            }
-            /*
             for (i in 1 until 14){
-                cartas.add(Carta(naipes[i], Palos.TREBOL, naipes[i].valorMax, naipes[i].valorMin,
-                    getIdDrawable(context,"${naipes[i]}")
-                ))
-                cartas.add(
-                    Carta(naipes[i],
-                    Palos.CORAZONES, naipes[i].valorMax, naipes[i].valorMin,getIdDrawable(context,"${naipes[i]}"))
-                )
-                cartas.add(Carta(naipes[i], Palos.DIAMANTE, naipes[i].valorMax, naipes[i].valorMin,getIdDrawable(context,"${naipes[i]}")))
-                cartas.add(Carta(naipes[i], Palos.PICAS, naipes[i].valorMax, naipes[i].valorMin,getIdDrawable(context,"${naipes[i]}")))
-            }*/
+                cartas.add(Carta(naipes[i], Palos.TREBOL, naipes[i].valorMax, naipes[i].valorMin, getIdDrawable(context,"${Palos.TREBOL.nombrePalo}${i}")))
+                cartas.add(Carta(naipes[i], Palos.CORAZONES, naipes[i].valorMax, naipes[i].valorMin,getIdDrawable(context,"${Palos.CORAZONES.nombrePalo}${i}")))
+                cartas.add(Carta(naipes[i], Palos.DIAMANTE, naipes[i].valorMax, naipes[i].valorMin,getIdDrawable(context,"${Palos.DIAMANTE.nombrePalo}${i}")))
+                cartas.add(Carta(naipes[i], Palos.PICAS, naipes[i].valorMax, naipes[i].valorMin,getIdDrawable(context,"${Palos.PICAS.nombrePalo}${i}")))
+            }
 
         }
 
@@ -73,7 +41,7 @@ class Baraja {
          * @return devuelve la carta con la ultima carta de la baraja
          */
         fun dameCarta(): Carta {
-            var carta = cartas.last()
+            val carta = cartas.last()
             cartas.removeLast()
             return carta
         }
@@ -83,7 +51,7 @@ class Baraja {
          * devuelve la carta boca abajo
          */
         fun dameCartaBocaAbajo(): Carta {
-            return Carta(Naipes.CERO,Palos.CERO,0,0,R.drawable.facedown)
+            return Carta(Naipes.NINGUNA,Palos.NINGUNA,0,0,R.drawable.facedown)
         }
 
         fun tamanioBaraja():Int {

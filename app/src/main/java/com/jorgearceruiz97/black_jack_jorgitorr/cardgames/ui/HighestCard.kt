@@ -119,14 +119,12 @@ fun HighestCardLayout(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            // Button to draw a new card
             Button(
                 enabled = highestCardViewModel.btnGetCardEnabled(),
                 onClick = { onClickRequestCard() }
             ) {
                 Text(text = "Dame Carta")
             }
-            // Button to restart the game
             Button(
                 enabled = highestCardViewModel.btnResetDeckOfCardsEnabled(),
                 onClick = { onClickReset() }
