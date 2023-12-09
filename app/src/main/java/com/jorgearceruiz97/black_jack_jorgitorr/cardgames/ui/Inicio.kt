@@ -7,11 +7,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +20,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jorgearceruiz97.black_jack_jorgitorr.R
+import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data.Routes
 
-//@Preview(showBackground = true)
+
+/**
+ * contiene el menu principal que te lleva a los diferentes juegos
+ */
 @Composable
-fun menu(navController: NavHostController){
+fun menuInicio(navController: NavHostController){
     val imageModifier = Modifier
         .size(900.dp)
         .border(BorderStroke(1.dp, Color.Black))
@@ -33,35 +36,26 @@ fun menu(navController: NavHostController){
     Image(painter = painterResource(id = R.drawable.fondo), contentDescription = "",
         contentScale = ContentScale.Crop,
         modifier = imageModifier)
-    Row (modifier = Modifier
-        .fillMaxSize()
-        .padding(top = 50.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Top){
-        Image(painter = painterResource(id = R.drawable.facedown),
-            contentDescription = "")
-    }
-
-    //carta maquina
-    Row (modifier = Modifier
-        .fillMaxSize()
-        .padding(top = 250.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically){
-        Image(painter = painterResource(id = R.drawable.facedown),
-            contentDescription = "")
-    }
-
-    Row(modifier = Modifier
-        .fillMaxSize()
-        .padding(50.dp),
+    Row(modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Bottom){
-        Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color.DarkGray)) {
-            Text(text = "Pedir carta")
+        verticalAlignment = Alignment.CenterVertically){
+    }
+
+    Row {
+        Button(onClick = { navController.navigate(Routes.jugadorVsPc.routes) }) {
+            Text(text = "BJ 1 Player")
         }
-        Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color.DarkGray)) {
-            Text(text = "Plantarse")
+        Button(onClick = { navController.navigate(Routes.dosJugadores.routes)}) {
+            Text(text = "BJ 2 Players")
+        }
+        Button(onClick = { navController.navigate(Routes.highestCard.routes)}) {
+            Text(text = "Highest Card")
+
         }
     }
+}
+
+
+fun insertarUsuario(){
+
 }

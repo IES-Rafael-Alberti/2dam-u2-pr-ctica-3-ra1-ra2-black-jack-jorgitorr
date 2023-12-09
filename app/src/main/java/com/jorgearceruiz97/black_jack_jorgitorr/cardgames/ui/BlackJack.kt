@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jorgearceruiz97.black_jack_jorgitorr.R
+import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data.Baraja
 
 
 /**
@@ -30,12 +31,54 @@ import com.jorgearceruiz97.black_jack_jorgitorr.R
  * @param highestCardViewModel The viewModel responsible for managing the Highest Card game logic
  */
 @Composable
-fun HighestCardScreen(
+fun BlackJackScreen(
     navController: NavHostController,
     highestCardViewModel: HighestCardViewModel
 ){
     val imagenId: Int by highestCardViewModel.imageId.observeAsState(initial = 0)
     val descImagen: String by highestCardViewModel.imageDesc.observeAsState(initial = "")
+
+
+    val imageModifier = Modifier
+        .size(900.dp)
+        .border(BorderStroke(1.dp, Color.Black))
+        .background(Color.Yellow)
+
+    Image(painter = painterResource(id = R.drawable.fondo), contentDescription = "",
+        contentScale = ContentScale.Crop,
+        modifier = imageModifier)
+    Row (modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 50.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Top){
+        Image(painter = painterResource(id = R.drawable.facedown),
+            contentDescription = "")
+    }
+
+    //carta maquina
+    Row (modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 250.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically){
+        Image(painter = painterResource(id = R.drawable.facedown),
+            contentDescription = "")
+    }
+
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(50.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+        Button(onClick = {  }, colors = ButtonDefaults.buttonColors(Color.DarkGray)) {
+            Text(text = "Pedir carta")
+        }
+        Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color.DarkGray)) {
+            Text(text = "Plantarse")
+        }
+    }
+
 
 }
 
@@ -82,5 +125,55 @@ fun menu2(navController: NavHostController){
             Text(text = "Plantarse")
         }
     }
+}
+
+
+@Composable
+fun menuJugadorPc(navController: NavHostController){
+    //carta jugador 1
+    val imageModifier = Modifier
+        .size(900.dp)
+        .border(BorderStroke(1.dp, Color.Black))
+        .background(Color.Yellow)
+
+    Image(painter = painterResource(id = R.drawable.fondo), contentDescription = "",
+        contentScale = ContentScale.Crop,
+        modifier = imageModifier)
+    Row (modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 50.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Top){
+        Image(painter = painterResource(id = R.drawable.facedown),
+            contentDescription = "")
+    }
+
+    //carta maquina
+    Row (modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 250.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically){
+        Image(painter = painterResource(id = R.drawable.facedown),
+            contentDescription = "")
+    }
+
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(50.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+        Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color.DarkGray)) {
+            Text(text = "Pedir carta")
+        }
+        Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color.DarkGray)) {
+            Text(text = "Plantarse")
+        }
+    }
+}
+
+
+fun introducirNombre(navController: NavHostController){
+
 }
 

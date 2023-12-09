@@ -34,13 +34,21 @@ class HighestCardViewModel(application:Application): AndroidViewModel(applicatio
 
 
 
-    private fun restart() {
-        Baraja.crearBaraja()
+    fun restart() {
+        Baraja.crearBaraja(context)
         Baraja.barajar()
         _card.value = Baraja.dameCartaBocaAbajo()
         _imageId.value = _card.value?.idDrawable
         _imageDesc.value = ""
     }
+
+    fun getCardsTotal(): String {
+        return Baraja.tamanioBaraja().toString()
+    }
+
+    fun btnGetCardEnabled() = Baraja.tamanioBaraja() > 1
+
+    fun btnResetDeckOfCardsEnabled() = Baraja.tamanioBaraja() < 52
 
 
 }

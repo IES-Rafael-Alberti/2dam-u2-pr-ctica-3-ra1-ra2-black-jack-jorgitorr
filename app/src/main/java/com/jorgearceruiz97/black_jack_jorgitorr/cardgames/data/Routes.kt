@@ -5,4 +5,6 @@ sealed class Routes(val routes:String){
     object jugadorVsPc: Routes("Dos jugadores")
     object dosJugadores: Routes("Un jugador")
 
+    object highestCard : Routes("highestCard")
+
 }
