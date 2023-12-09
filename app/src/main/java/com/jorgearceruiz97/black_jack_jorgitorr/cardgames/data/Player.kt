@@ -1,3 +1,9 @@
 package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data
 
-data class Player(val nombre:String, val cartas: ArrayList<Carta>)
+
+/**
+ * @property nombre nombre del jugador
+ * @property listaCartas cartas del jugador
+ * @property fichas fichas del jugador
+ */
+data class Player(var playerId:Int, val nombre:String, val listaCartas: ArrayList<Carta>, val fichas:Int)

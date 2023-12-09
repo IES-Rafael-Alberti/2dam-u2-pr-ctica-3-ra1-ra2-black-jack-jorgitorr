@@ -5,6 +5,4 @@ sealed class Routes(val routes:String){
     object blackJack1Player: Routes("Dos jugadores")
     object blackJack2Players: Routes("Un jugador")
     object highestCard : Routes("highestCard")
-
-
 }

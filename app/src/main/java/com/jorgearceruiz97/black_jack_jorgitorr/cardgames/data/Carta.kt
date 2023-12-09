@@ -10,6 +10,4 @@ import androidx.annotation.DrawableRes
  * @property puntosMin puntos mínimos que puede tener la carta
  * @property idDrawable ID del dibujo de la carta
  */
-data class Carta (val nombre: Naipes, val palo: Palos, val puntosMax:Int, val puntosMin: Int, @DrawableRes val idDrawable:Int){
-
-}
+data class Carta (val nombre: Naipes, val palo: Palos, val puntosMax:Int, val puntosMin: Int, @DrawableRes val idDrawable:Int)

@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -31,38 +31,51 @@ import com.jorgearceruiz97.black_jack_jorgitorr.R
  * @param highestCardViewModel The viewModel responsible for managing the Highest Card game logic
  */
 @Composable
-fun BlackJackScreen(
-    navController: NavHostController,
-    blackjackviewmodel: BlackJackViewModel
-){
-    val imagenId: Int by blackjackviewmodel.imageId.observeAsState(initial = 0)
+fun BlackJackScreen(){
+    /*val imagenId: Int by blackjackviewmodel.imageId.observeAsState(initial = 0)
     val descImagen: String by blackjackviewmodel.imageDesc.observeAsState(initial = "")
+    val turno: Boolean by blackjackviewmodel.*/
 
     val imageModifier = Modifier
         .size(900.dp)
         .border(BorderStroke(1.dp, Color.Black))
         .background(Color.Yellow)
 
-    //cartas 1 jugador
+    //cartas jugador 1
     Row (modifier = Modifier
         .fillMaxSize()
         .padding(top = 50.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top){
+        
+        Text(text = "Jugador 1")
+        LazyColumn {
+            items(getCardsJugador1()){
+
+            }
+        }
+
         Image(painter = painterResource(id = R.drawable.facedown),
             contentDescription = "")
     }
 
-    //cartas 2 jugador
+    //cartas jugador 2
     Row (modifier = Modifier
         .fillMaxSize()
         .padding(top = 250.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically){
+        Text(text = "Jugador 2")
+        LazyColumn {
+            items(getCardsJugador2()){
+                
+            }
+        }
         Image(painter = painterResource(id = R.drawable.facedown),
             contentDescription = "")
     }
 
+    //pedir Carta
     Row(modifier = Modifier
         .fillMaxSize()
         .padding(50.dp),
@@ -79,15 +92,32 @@ fun BlackJackScreen(
 
 }
 
+fun getCardsJugador1(): Int {
+    TODO("Not yet implemented")
+}
+
+fun getCardsJugador2(): Int {
+    TODO("Not yet implemented")
+}
+
+
 
 @Composable
-fun insertarUsuario1(navController: NavHostController, blackjackviewmodel: BlackJackViewModel){
+fun insertarUsuarios(
+    navController: NavHostController,
+    blackjackviewmodel: BlackJackViewModel,
+    introduceNombre: (String) -> Unit
+) {
     val nombre: String by blackjackviewmodel.player1Name.observeAsState("")
 
-    Box(){
+    Box(modifier = Modifier.fillMaxSize()) {
         Text(text = "Introduce tu nombre")
 
     }
+    
+}
+
+fun NombreItem(){
 
 }
 
