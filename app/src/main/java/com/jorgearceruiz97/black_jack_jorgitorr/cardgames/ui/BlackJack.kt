@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -44,10 +45,11 @@ fun BlackJackScreen(navController: NavHostController,
     }
 
 
-    blackJackLayout(
-        blackjackviewmodel =  blackjackviewmodel,
-        imagenId = imagenId,
-        descImagen = descImagen)
+        blackJackLayout(
+            blackjackviewmodel =  blackjackviewmodel,
+            imagenId = imagenId,
+            descImagen = descImagen)
+
 }
 
 
@@ -61,6 +63,8 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
 
 
     val turno: Boolean by blackjackviewmodel.turno.observeAsState(initial = true)
+    val stopPlayer1: Boolean by blackjackviewmodel.stopPlayer1.observeAsState(true)
+    val stopPlayer2: Boolean by blackjackviewmodel.stopPlayer2.observeAsState(true)
 
     //pedir cartas primer jugador
     Row(modifier = Modifier
@@ -69,10 +73,10 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Top){
 
-        Button(enabled = turno, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
+        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
             Text(text = "Pedir carta")
         }
-        Button(enabled = turno, onClick = { blackjackviewmodel.pasar(2) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.pasar(2) }, colors = ButtonDefaults.buttonColors(Color.White)) {
             Text(text = "Plantarse")
         }
     }
@@ -126,17 +130,19 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.Bottom){
 
-            Button(enabled = turno,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Button(enabled = stopPlayer1,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
                 Text(text = "Pedir carta")
             }
-            Button(enabled = turno, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Button(enabled = stopPlayer1, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
                 Text(text = "Plantarse")
             }
         }
 
-
+    //esto me dice quien es el ganador que tengo que pasarlo a un metodo para que me lo muestre en otra pantalla
+    Row(verticalAlignment = Alignment.Bottom,modifier = Modifier.fillMaxWidth().padding(bottom = 150.dp, start = 50.dp)){
+        Text(text = "El ganador es ${blackjackviewmodel.obtieneGanador()}") //te dice el ganador
+    }
 }
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -178,7 +184,7 @@ fun creaDibujoCartasJugador(carta: Carta) {
     Image(
         modifier = Modifier
             .height(150.dp)
-            .padding(vertical = 10.dp),
+            .padding(vertical = 10.dp, horizontal = 5.dp),
         painter = painterResource(id = carta.idDrawable),
         contentDescription = "${carta.nombre} de ${carta.palo}"
     )

@@ -95,11 +95,16 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         //_showBtnAccept.value = _player1Name.value!!.isNotEmpty() && _player2Name.value!!.isNotEmpty()
     }
 
+
+    /**
+     * Cuando le das click a pasar la variable se actualiza a false
+     * Para desactivarte botones y que el jugador no pueda seguir sacando cartas
+     */
     fun pasar(playerId: Int){
         if(playerId == 1){
-            _stopPlayer1.value = true
+            _stopPlayer1.value = false
         }else if(playerId == 2){
-            _stopPlayer2.value = true
+            _stopPlayer2.value = false
         }
     }
 
@@ -160,25 +165,41 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                 }
             }
         }
-
     }
 
     /**
      * Obtiene el ganador del juego
-     * @return 0 si los dos han empatado y el id del jugador segun el jugador que haya ganado
-     * @return -1 si la partida no ha terminado
+     * @return si el jugador1 tiene mas de 21 puntos gana el jugador2
+     * @return si el jugador2 tiene mas de 21 puntos gana el jugador1
+     * @return sino se comprueba quien ha ganado
      */
     fun obtieneGanador():Int{
         //si la partida ha terminado: que es cuando uno de los dos alcanza o supera los 21 puntos
-        if(_player1.value!!.puntos>=21||_player2.value!!.puntos>=21){
-            if(_player1.value!!.puntos<21 && _player1.value!!.puntos>_player2.value!!.puntos){
+        if(_player1.value!!.puntos>21){
+            pasar(_player1.value!!.playerId)//desactiva al jugador1
+            return _player2.value!!.playerId
+        }else if(_player2.value!!.puntos>21){
+            pasar(_player2.value!!.playerId)//desactiva al jugador2
+            return _player1.value!!.playerId
+        }else if(_stopPlayer1.value!! && _stopPlayer2.value!!){
+            if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
                 return _player1.value!!.playerId
             }else if(_player1.value!!.puntos==_player2.value!!.puntos){
                 return 0
-            }else if(_player2.value!!.puntos<21 && _player1.value!!.puntos>_player1.value!!.puntos){
+            }else if(_player2.value!!.puntos<=21 && _player1.value!!.puntos>_player1.value!!.puntos){
                 return _player2.value!!.playerId
             }
         }
+        /*ESTA MAL
+        if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
+                return _player1.value!!.playerId
+            }else if(_player1.value!!.puntos==_player2.value!!.puntos){
+                return 0
+            }else if(_player2.value!!.puntos<=21 && _player1.value!!.puntos>_player1.value!!.puntos){
+                return _player2.value!!.playerId
+            }
+         */
+
         return -1
     }
 
@@ -191,6 +212,8 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         _player2.value = Player(2,"",ArrayList(),50,0)
         creaCartasJugador(1)
         creaCartasJugador(2)
+        _stopPlayer1.value = true
+        _stopPlayer2.value = true
     }
 
     fun creaCartasJugador(playerId: Int){
