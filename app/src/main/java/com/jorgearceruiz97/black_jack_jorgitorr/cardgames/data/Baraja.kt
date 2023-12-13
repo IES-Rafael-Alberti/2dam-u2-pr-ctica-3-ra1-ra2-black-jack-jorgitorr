@@ -14,10 +14,7 @@ class Baraja {
          */
 
         fun crearBaraja(context: Context){
-            cartas.clear()
-            var puntosMax: Int
-            var puntosMin: Int
-
+            cartas.clear()//primero limpiamos las cartas
 
             var naipes = Naipes.values()
 

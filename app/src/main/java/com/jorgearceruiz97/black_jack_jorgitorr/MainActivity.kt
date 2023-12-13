@@ -41,14 +41,10 @@ class MainActivity : ComponentActivity() {
                             highestCardViewModel = highestCardViewModel
                         )}
                         //blackJack 2 Jugadores
-                        /*composable(Routes.blackJack2Players.routes){ BlackJackScreen(
+                        composable(Routes.blackJack2Players.routes){ BlackJackScreen(
                             navController = navController,
                             blackjackviewmodel = blackJackViewModel
-                        )}*/
-
-                        //blackJack 1 jugador vs Maquina
-
-
+                        )}
                     }
                 }
             }

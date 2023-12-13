@@ -58,8 +58,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     fun restart(){
         Baraja.crearBaraja(context)
         Baraja.barajar()
-        _player1.value!!.playerId = 1
-        _player2.value!!.playerId = 2
+        nuevoJuego()
     }
 
 
@@ -73,48 +72,33 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         return _card.value!!
     }
 
-    /**
-     * método get Carta
-     *
-    fun getCarta(){
-        _card.value = Baraja.dameCarta()
-        _imageId.value = _card.value?.idDrawable
-        _imageDesc.value = ""
-    }*/
 
 
     fun getCardsJugador(playerId: Int): ArrayList<Carta> {
-        var cartas:ArrayList<Carta>
-
-        if(playerId==_player1.value!!.playerId){
-            cartas = player1.value!!.listaCartas
+        return if(playerId==1){
+            player1.value!!.listaCartas
         }else{
-            cartas = player2.value!!.listaCartas
+            player2.value!!.listaCartas
         }
-        return cartas
     }
 
-
-    fun introduceUsuario(nombre:String){
-        onNickNameChange(getJugadorId(),nombre)
-    }
 
 
     fun onNickNameChange(playerId:Int, nombre:String){
-        if(playerId==_player1.value!!.playerId){
+        if(playerId==1){
             _player1Name.value = nombre
-        }else if(playerId==_player2.value!!.playerId){
+        }else {
             _player2Name.value = nombre
         }
 
         //si el jugador 1 y 2 no tienen valor vacio pueden darle a aceptar
-        _showBtnAccept.value = _player1Name.value!!.isNotEmpty() && _player2Name.value!!.isNotEmpty()
+        //_showBtnAccept.value = _player1Name.value!!.isNotEmpty() && _player2Name.value!!.isNotEmpty()
     }
 
-    fun pasar(){
-        if(getJugadorId() == _player1.value!!.playerId){
+    fun pasar(playerId: Int){
+        if(playerId == 1){
             _stopPlayer1.value = true
-        }else if(getJugadorId() == _player2.value!!.playerId){
+        }else if(playerId == 2){
             _stopPlayer2.value = true
         }
     }
@@ -131,11 +115,11 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
      * devuelve el id del jugador actual segun el turno en el que estemos
      */
     private fun getJugadorId():Int{
-        var playerId: Int
-        if(_turno!!.value == true){
-            playerId = _player1.value!!.playerId
+        var playerId: Int = 0
+        playerId = if(_turno.value == true){
+            _player1.value!!.playerId
         }else{
-            playerId = _player2.value!!.playerId
+            _player2.value!!.playerId
         }
         return playerId
     }
@@ -146,37 +130,32 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     /**
      * comienza un nuevo juego
      */
-    fun nuevoJuego(){
-        restart()
-    }
 
 
     /**
      * suma los puntos del jugador
      */
     fun sumaPuntos(playerId: Int):Int{
-        var sumaPlayer1 = 0
-        var sumaPlayer2 = 0
-        //suma cartas player1
         if(playerId==_player1.value!!.playerId){
+            //suma cartas player1
             for(carta in _player1.value!!.listaCartas){
-                sumaPlayer1 += if(sumaPlayer1<23){//tengo que ver reglas blackjack
-                    carta.puntosMax
+                if(_player1.value!!.puntos+carta.puntosMax<=21){
+                    _player1.value!!.puntos += carta.puntosMax
                 }else{
-                    carta.puntosMin
+                    _player1.value!!.puntos += carta.puntosMin
                 }
             }
-            return sumaPlayer1
+            return _player1.value!!.puntos
         }else{
             //suma cartas Player2
             for(carta in _player2.value!!.listaCartas){
-                sumaPlayer2 += if(sumaPlayer2<23){
-                    carta.puntosMax
+                if(_player2.value!!.puntos+carta.puntosMax<=21){
+                    _player2.value!!.puntos += carta.puntosMax
                 }else{
-                    carta.puntosMin
+                    _player2.value!!.puntos += carta.puntosMin
                 }
             }
-            return sumaPlayer2
+            return _player2.value!!.puntos
         }
     }
 
@@ -189,14 +168,25 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         return playerId
     }
 
-    fun obtieneCartas(playerId: Int):ArrayList<Carta>{
+    /**
+     * inicia un nuevo juego que consiste en crear el jugador con valores predeterminados
+     * y crea al menos una carta en cada jugador para poder imprimir la carta boca abajo
+     */
+    fun nuevoJuego(){
+        _player1.value = Player(1,"",ArrayList(),50,0)
+        _player2.value = Player(2,"",ArrayList(),50,0)
+        creaCartasJugador(1)
+        creaCartasJugador(2)
+        sumaPuntos(1)
+        sumaPuntos(2)
+    }
 
-        var cartas = if(playerId == _player1.value!!.playerId){
-            _player1.value!!.listaCartas
+    fun creaCartasJugador(playerId: Int){
+        if(playerId==1){
+            _player1.value!!.listaCartas.add(getCarta())
         }else{
-            _player2.value!!.listaCartas
+            _player2.value!!.listaCartas.add(getCarta())
         }
-        return cartas
     }
 
 
