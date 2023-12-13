@@ -135,27 +135,13 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     /**
      * suma los puntos del jugador
      * sacandole la última carta y sumandola
+     * se reinicializan los puntos cada vez que se realiza este método para poner a cero los puntos
      */
-    fun sumaPuntos(playerId: Int):Int{
-        if(playerId==_player1.value!!.playerId){
-            var carta = _player1.value!!.dameUltimaCarta()
-            if(_player1.value!!.puntos+carta.puntosMax<=21){
-                _player1.value!!.puntos += carta.puntosMax
-            }else{
-                _player1.value!!.puntos += carta.puntosMin
-            }
-            return _player1.value!!.puntos
-        }else{
-            var carta = _player2.value!!.dameUltimaCarta()
-            if(_player2.value!!.puntos+carta.puntosMax<=21){
-                _player2.value!!.puntos += carta.puntosMax
-            }else{
-                _player2.value!!.puntos += carta.puntosMin
-            }
-            return _player2.value!!.puntos
-        }
+    fun sumaPuntos(playerId: Int){
+        _player1.value!!.puntos = 0
+        _player2.value!!.puntos = 0
 
-        /*if(playerId==_player1.value!!.playerId){
+        if(playerId==_player1.value!!.playerId){
             //suma cartas player1
             for(carta in _player1.value!!.listaCartas){//aqui esta sumando todas las cartas, debería sumar la actual
                 if(_player1.value!!.puntos+carta.puntosMax<=21){
@@ -164,7 +150,6 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                     _player1.value!!.puntos += carta.puntosMin
                 }
             }
-            return _player1.value!!.puntos
         }else{
             //suma cartas Player2
             for(carta in _player2.value!!.listaCartas){
@@ -174,8 +159,8 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                     _player2.value!!.puntos += carta.puntosMin
                 }
             }
-            return _player2.value!!.puntos
-        }*/
+        }
+
     }
 
     /**

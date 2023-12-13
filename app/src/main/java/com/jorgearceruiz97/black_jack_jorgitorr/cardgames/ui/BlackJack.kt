@@ -93,7 +93,9 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
                 creaDibujoCartasJugador(carta = carta)
             }
         }
-        Text(text = "${blackjackviewmodel.sumaPuntos(2)}")
+        blackjackviewmodel.sumaPuntos(2)
+
+        Text(text = "${blackjackviewmodel.player2.value!!.puntos}")
     }
 
 
@@ -111,8 +113,10 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
                 creaDibujoCartasJugador(carta = carta)
             }
         }
+        blackjackviewmodel.sumaPuntos(1)
 
-        Text(text = "${blackjackviewmodel.sumaPuntos(1)}")
+       //suma puntos del jugador
+        Text(text = "${blackjackviewmodel.player1.value!!.puntos}")
     }
 
         //obtiene cartas o pasa del jugador que seamos
