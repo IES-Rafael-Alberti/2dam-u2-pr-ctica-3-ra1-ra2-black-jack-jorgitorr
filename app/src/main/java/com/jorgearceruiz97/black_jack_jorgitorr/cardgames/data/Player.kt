@@ -7,4 +7,8 @@ package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data
  * @property fichas fichas del jugador
  * @property puntos puntos del jugador
  */
-data class Player(var playerId:Int, val nombre:String, val listaCartas: ArrayList<Carta>, val fichas:Int, var puntos:Int)
+data class Player(var playerId:Int, val nombre:String, val listaCartas: ArrayList<Carta>, val fichas:Int, var puntos:Int){
+    fun dameUltimaCarta():Carta{
+        return listaCartas.last()
+    }
+}

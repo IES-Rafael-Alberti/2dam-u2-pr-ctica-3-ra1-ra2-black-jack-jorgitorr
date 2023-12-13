@@ -134,11 +134,30 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
 
     /**
      * suma los puntos del jugador
+     * sacandole la última carta y sumandola
      */
     fun sumaPuntos(playerId: Int):Int{
         if(playerId==_player1.value!!.playerId){
+            var carta = _player1.value!!.dameUltimaCarta()
+            if(_player1.value!!.puntos+carta.puntosMax<=21){
+                _player1.value!!.puntos += carta.puntosMax
+            }else{
+                _player1.value!!.puntos += carta.puntosMin
+            }
+            return _player1.value!!.puntos
+        }else{
+            var carta = _player2.value!!.dameUltimaCarta()
+            if(_player2.value!!.puntos+carta.puntosMax<=21){
+                _player2.value!!.puntos += carta.puntosMax
+            }else{
+                _player2.value!!.puntos += carta.puntosMin
+            }
+            return _player2.value!!.puntos
+        }
+
+        /*if(playerId==_player1.value!!.playerId){
             //suma cartas player1
-            for(carta in _player1.value!!.listaCartas){
+            for(carta in _player1.value!!.listaCartas){//aqui esta sumando todas las cartas, debería sumar la actual
                 if(_player1.value!!.puntos+carta.puntosMax<=21){
                     _player1.value!!.puntos += carta.puntosMax
                 }else{
@@ -156,16 +175,26 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                 }
             }
             return _player2.value!!.puntos
-        }
+        }*/
     }
 
-    fun obtieneGanador(sumaPlayer1: Int, sumaPlayer2:Int):Int{
-        var playerId = if(sumaPlayer1>sumaPlayer2){
-            player1.value!!.playerId
-        }else{
-            player2.value!!.playerId
+    /**
+     * Obtiene el ganador del juego
+     * @return 0 si los dos han empatado y el id del jugador segun el jugador que haya ganado
+     * @return -1 si la partida no ha terminado
+     */
+    fun obtieneGanador():Int{
+        //si la partida ha terminado: que es cuando uno de los dos alcanza o supera los 21 puntos
+        if(_player1.value!!.puntos>=21||_player2.value!!.puntos>=21){
+            if(_player1.value!!.puntos<21 && _player1.value!!.puntos>_player2.value!!.puntos){
+                return _player1.value!!.playerId
+            }else if(_player1.value!!.puntos==_player2.value!!.puntos){
+                return 0
+            }else if(_player2.value!!.puntos<21 && _player1.value!!.puntos>_player1.value!!.puntos){
+                return _player2.value!!.playerId
+            }
         }
-        return playerId
+        return -1
     }
 
     /**
@@ -177,8 +206,6 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         _player2.value = Player(2,"",ArrayList(),50,0)
         creaCartasJugador(1)
         creaCartasJugador(2)
-        sumaPuntos(1)
-        sumaPuntos(2)
     }
 
     fun creaCartasJugador(playerId: Int){
