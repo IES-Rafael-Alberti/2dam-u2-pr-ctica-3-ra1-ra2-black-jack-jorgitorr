@@ -150,10 +150,8 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
      * se reinicializan los puntos cada vez que se realiza este método para poner a cero los puntos
      */
     fun sumaPuntos(playerId: Int){
-        _player1.value!!.puntos = 0
-        _player2.value!!.puntos = 0
-
         if(playerId==_player1.value!!.playerId){
+            _player1.value!!.puntos = 0 // lo vuelvo a poner a cero para
             //suma cartas player1
             for(carta in _player1.value!!.listaCartas){//aqui esta sumando todas las cartas, debería sumar la actual
                 if(_player1.value!!.puntos+carta.puntosMax<=21){
@@ -163,6 +161,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                 }
             }
         }else{
+            _player2.value!!.puntos = 0 // lo vuelvo a poner a 0 porque le sumo todas las cartas
             //suma cartas Player2
             for(carta in _player2.value!!.listaCartas){
                 if(_player2.value!!.puntos+carta.puntosMax<=21){
@@ -182,10 +181,11 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
      */
     fun obtieneGanador():Int{
         //si la partida ha terminado: que es cuando uno de los dos alcanza o supera los 21 puntos
-        if(_player1.value!!.puntos>=21){
-            pasar(_player1.value!!.playerId)//desactiva al jugador1
-        }else if(_player2.value!!.puntos>=21){
-            pasar(_player2.value!!.playerId)//desactiva al jugador2
+        if(_player1.value!!.puntos>=21 && _player2.value!!.puntos <=21){
+            return _player2.value!!.playerId
+        }else if(_player2.value!!.puntos>=21 && _player1.value!!.puntos <= 21){
+            return _player1.value!!.playerId
+
         }else if(!_stopPlayer1.value!! && !_stopPlayer2.value!!){
             if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
                 return _player1.value!!.playerId
@@ -194,13 +194,8 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
             }else if(_player2.value!!.puntos<=21 && _player1.value!!.puntos>_player1.value!!.puntos){
                 return _player2.value!!.playerId
             }
-        }else{
-            if(!stopPlayer1.value!! && _player2.value!!.puntos <=21){
-                return _player2.value!!.playerId
-            }else if(!stopPlayer2.value!! && _player1.value!!.puntos <= 21){
-                return _player1.value!!.playerId
-            }
         }
+
         return 0 //empate
     }
 

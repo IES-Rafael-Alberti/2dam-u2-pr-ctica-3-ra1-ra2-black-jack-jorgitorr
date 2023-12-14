@@ -109,7 +109,15 @@ fun blackJackLayout(
         }
         blackjackviewmodel.sumaPuntos(2)//suma Puntos jugador2
 
-        Text(text = "${blackjackviewmodel.player2.value!!.puntos}")
+
+    }
+
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(50.dp, bottom = 500.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+        Text(text = "${blackjackviewmodel.player2.value!!.puntos} puntos")
     }
 
 
@@ -129,8 +137,6 @@ fun blackJackLayout(
         }
         blackjackviewmodel.sumaPuntos(1)//suma Puntos jugador1
 
-       //suma puntos del jugador
-        Text(text = "${blackjackviewmodel.player1.value!!.puntos}")
     }
 
         //obtiene cartas o pasa del jugador que seamos
@@ -144,10 +150,18 @@ fun blackJackLayout(
             Text(text = "Pedir carta")
         }
 
-
         Button(enabled = stopPlayer1, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
             Text(text = "Plantarse")
         }
+        //suma puntos del jugador
+    }
+
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(50.dp, bottom = 200.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+        Text(text = "${blackjackviewmodel.player1.value!!.puntos} puntos")
     }
     //esto me dice quien es el ganador que tengo que pasarlo a un metodo para que me lo muestre en otra pantalla
     var ganador = blackjackviewmodel.obtieneGanador()
