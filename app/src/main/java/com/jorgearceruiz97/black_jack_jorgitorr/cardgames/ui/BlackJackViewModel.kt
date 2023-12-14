@@ -40,6 +40,12 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     private var _stopPlayer1 = MutableLiveData<Boolean>()
     var stopPlayer1 : LiveData<Boolean> = _stopPlayer1
 
+    private var _stopPedirPlayer1 = MutableLiveData<Boolean>()
+    var stopPedirPlayer1 = _stopPedirPlayer1
+
+    private var _stopPedirPlayer2 = MutableLiveData<Boolean>()
+    var stopPedirPlayer2 = _stopPedirPlayer2
+
     private var _stopPlayer2 = MutableLiveData<Boolean>()
     var stopPlayer2 : LiveData<Boolean> = _stopPlayer2
 
@@ -98,6 +104,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
 
     /**
      * Cuando le das click a pasar la variable se actualiza a false
+     * también se actualiza la pedirCarta del mismo jugador
      * Para desactivarte botones y que el jugador no pueda seguir sacando cartas
      */
     fun pasar(playerId: Int){
@@ -114,6 +121,18 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
      */
     fun cambiaTurnos(){
         _turno.value = _turno.value != true
+    }
+
+
+    /**
+     * Desactiva el dame carta si el jugador tiene mas de 21 puntos
+     */
+    fun desactivaDameCarta(playerId: Int){
+        if(playerId==1){
+            _stopPedirPlayer1.value = false
+        }else if(playerId == 2){
+            _stopPedirPlayer2.value = false
+        }
     }
 
     /**
@@ -181,7 +200,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         }else if(_player2.value!!.puntos>21){
             pasar(_player2.value!!.playerId)//desactiva al jugador2
             return _player1.value!!.playerId
-        }else if(_stopPlayer1.value!! && _stopPlayer2.value!!){
+        }else if(_stopPlayer1.value!! || _stopPlayer2.value!!){
             if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
                 return _player1.value!!.playerId
             }else if(_player1.value!!.puntos==_player2.value!!.puntos){
@@ -206,6 +225,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     /**
      * inicia un nuevo juego que consiste en crear el jugador con valores predeterminados
      * y crea al menos una carta en cada jugador para poder imprimir la carta boca abajo
+     * reinicializa las variables de los botones
      */
     fun nuevoJuego(){
         _player1.value = Player(1,"",ArrayList(),50,0)
@@ -214,6 +234,8 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         creaCartasJugador(2)
         _stopPlayer1.value = true
         _stopPlayer2.value = true
+        _stopPedirPlayer1.value = true
+        _stopPedirPlayer2.value = true
     }
 
     fun creaCartasJugador(playerId: Int){

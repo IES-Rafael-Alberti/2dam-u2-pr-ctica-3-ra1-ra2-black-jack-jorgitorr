@@ -45,10 +45,10 @@ fun BlackJackScreen(navController: NavHostController,
     }
 
 
-        blackJackLayout(
-            blackjackviewmodel =  blackjackviewmodel,
-            imagenId = imagenId,
-            descImagen = descImagen)
+    blackJackLayout(
+        blackjackviewmodel =  blackjackviewmodel,
+        imagenId = imagenId,
+        descImagen = descImagen)
 
 }
 
@@ -66,16 +66,27 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
     val stopPlayer1: Boolean by blackjackviewmodel.stopPlayer1.observeAsState(true)
     val stopPlayer2: Boolean by blackjackviewmodel.stopPlayer2.observeAsState(true)
 
+    val stopPedir1: Boolean by blackjackviewmodel.stopPedirPlayer1.observeAsState(true)
+    val stopPedir2: Boolean by blackjackviewmodel.stopPedirPlayer2.observeAsState(true)
+
+
     //pedir cartas primer jugador
+
     Row(modifier = Modifier
         .fillMaxSize()
         .padding(top = 10.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Top){
 
-        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
+        Button(enabled = stopPedir2, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
             Text(text = "Pedir carta")
         }
+
+        //si el jugador1 para su partida
+        if(!stopPlayer1){
+            blackjackviewmodel.pasar(2)//jugador2 no puede pararla
+        }
+
         Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.pasar(2) }, colors = ButtonDefaults.buttonColors(Color.White)) {
             Text(text = "Plantarse")
         }
@@ -130,16 +141,24 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.Bottom){
 
-            Button(enabled = stopPlayer1,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Button(enabled = stopPedir1,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
                 Text(text = "Pedir carta")
             }
+            //si el jugador 2 para su partida
+            if(!stopPlayer2) {
+                blackjackviewmodel.pasar(1) //jugador 1 no puede pararla
+            }
+
+
             Button(enabled = stopPlayer1, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
                 Text(text = "Plantarse")
             }
         }
 
     //esto me dice quien es el ganador que tengo que pasarlo a un metodo para que me lo muestre en otra pantalla
-    Row(verticalAlignment = Alignment.Bottom,modifier = Modifier.fillMaxWidth().padding(bottom = 150.dp, start = 50.dp)){
+    Row(verticalAlignment = Alignment.Bottom,modifier = Modifier
+        .fillMaxWidth()
+        .padding(bottom = 150.dp, start = 50.dp)){
         Text(text = "El ganador es ${blackjackviewmodel.obtieneGanador()}") //te dice el ganador
     }
 }
@@ -188,6 +207,13 @@ fun creaDibujoCartasJugador(carta: Carta) {
         painter = painterResource(id = carta.idDrawable),
         contentDescription = "${carta.nombre} de ${carta.palo}"
     )
+}
+
+
+fun creaDibujoGanadores(playerId: Int){
+    if(playerId==1){
+
+    }
 }
 
 
