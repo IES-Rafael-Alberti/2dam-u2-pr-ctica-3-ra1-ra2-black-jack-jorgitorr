@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data.Routes
+import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.BlackJackMP
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.BlackJackScreen
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.BlackJackViewModel
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui.HighestCardScreen
@@ -45,6 +46,10 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             blackjackviewmodel = blackJackViewModel
                         )}
+                        composable(Routes.BlackJackMP.routes){
+                            BlackJackMP(navController = navController,
+                                blackjackviewmodel = blackJackViewModel)
+                        }
                     }
                 }
             }

@@ -120,6 +120,14 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         _turno.value = _turno.value != true
     }
 
+    /**
+     * Le da cartas al jugador2 para el modo multijugador
+     * si el turno es el que le corresponde
+     */
+    fun dameCartaMP(){
+        _player2.value!!.listaCartas.add(getCarta())
+    }
+
 
 
 
@@ -181,21 +189,72 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
      */
     fun obtieneGanador():Int{
         //si la partida ha terminado: que es cuando uno de los dos alcanza o supera los 21 puntos
+        if(_player1.value!!.puntos > 21 && _player2.value!!.puntos <= 21){
+            return _player2.value!!.playerId
+        }else if(_player2.value!!.puntos > 21 && _player1.value!!.puntos <= 21){
+            return _player1.value!!.playerId
+        }else if(!_stopPlayer1.value!! && !_stopPlayer2.value!!){
+            if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
+                return _player1.value!!.playerId
+            }else if(_player2.value!!.puntos<=21 && _player2.value!!.puntos>_player1.value!!.puntos){
+                return _player2.value!!.playerId
+            }else if(_player1.value!!.puntos==_player2.value!!.puntos){//si son iguales
+                return 0
+            }
+        }else if(!_stopPlayer2.value!!){//si el jugador2 se planta
+            if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
+                return _player1.value!!.puntos
+            }else if(_player1.value!!.puntos==_player2.value!!.puntos){
+                return 0
+            }
+        }else if(!_stopPlayer1.value!!){//si el jugador2 se planta
+            if(_player2.value!!.puntos>_player1.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
+                return _player2.value!!.puntos
+            }else if(_player2.value!!.puntos>21 && _player1.value!!.puntos<=21){
+                return _player1.value!!.playerId
+            }
+        }
+
+        return 0 //empate
+    }
+
+
+    /**
+     * Obtiene el ganador del juego
+     * @return si el jugador tiene mas de 21 puntos gana el PC
+     * @return si el PC tiene mas de 21 puntos gana el jugador
+     * @return sino se comprueba quien ha ganado
+     */
+    fun obtieneGanadorMP():Int{
+        //player1 => Jugador
+        //player2 => PC
+
+        //si la partida ha terminado: que es cuando uno de los dos alcanza o supera los 21 puntos
         if(_player1.value!!.puntos>=21 && _player2.value!!.puntos <=21){
             return _player2.value!!.playerId
         }else if(_player2.value!!.puntos>=21 && _player1.value!!.puntos <= 21){
             return _player1.value!!.playerId
-
         }else if(!_stopPlayer1.value!! && !_stopPlayer2.value!!){
             if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
                 return _player1.value!!.playerId
-            }else if(_player1.value!!.puntos==_player2.value!!.puntos){
-                return 0 //empate
-            }else if(_player2.value!!.puntos<=21 && _player1.value!!.puntos>_player1.value!!.puntos){
+            }else if(_player2.value!!.puntos<=21 && _player2.value!!.puntos>_player1.value!!.puntos){
                 return _player2.value!!.playerId
+            }else if(_player1.value!!.puntos==_player2.value!!.puntos){//si son iguales
+                return 0
+            }
+        }else if(!_stopPlayer2.value!!){//si el jugador2 se planta
+            if(_player1.value!!.puntos<17 && _player1.value!!.puntos<_player2.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
+                dameCartaMP()
+            }else if(_player1.value!!.puntos>21 && _player2.value!!.puntos<=21){
+                return _player2.value!!.playerId
+            }else if(_player1.value!!.puntos==_player2.value!!.puntos && _player2.value!!.puntos>=17){
+                return 0
+            }else if(_player2.value!!.puntos<=21&&_player1.value!!.puntos<_player2.value!!.puntos){
+                dameCartaMP()
+            }else{
+                return 0;
             }
         }
-
         return 0 //empate
     }
 
@@ -220,6 +279,13 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
             _player2.value!!.listaCartas.add(getCarta())
         }
     }
+
+    fun creaCartasJugadorMP(){
+        _player1.value!!.listaCartas.add(getCarta())
+        dameCartaMP()//le entrega una carta al jugador2
+
+    }
+
 
     /**
      * Condicion para cuando se debe crear el texto de los ganadores

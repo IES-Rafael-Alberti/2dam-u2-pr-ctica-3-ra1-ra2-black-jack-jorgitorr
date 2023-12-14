@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -37,20 +38,20 @@ fun menuInicio(navController: NavHostController){
     Image(painter = painterResource(id = R.drawable.fondo), contentDescription = "",
         contentScale = ContentScale.Crop,
         modifier = imageModifier)
-    Row(modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically){
-    }
         Row(horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(bottom = 50.dp)){
+
             Button(onClick = { navController.navigate(Routes.blackJack2Players.routes)}) {
-                Text(text = "BJ 2 Players")
+                Text(text = "2 Players")
             }
             Button(onClick = { navController.navigate(Routes.highestCard.routes)}) {
                 Text(text = "Highest Card")
 
-        }
+            }
+            Button(onClick = { navController.navigate(Routes.BlackJackMP.routes) }) {
+                Text(text = "1 Player")
+            }
     }
     
 }
