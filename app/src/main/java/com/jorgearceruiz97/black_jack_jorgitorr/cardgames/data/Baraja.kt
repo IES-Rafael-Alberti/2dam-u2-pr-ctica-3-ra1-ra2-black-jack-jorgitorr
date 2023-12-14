@@ -4,6 +4,9 @@ import android.content.Context
 import com.jorgearceruiz97.black_jack_jorgitorr.R
 
 
+/**
+ * @property cartas contiene una lista de cartas
+ */
 class Baraja {
     companion object {
         private var cartas:ArrayList<Carta> = ArrayList()
@@ -28,7 +31,9 @@ class Baraja {
         }
 
 
-
+        /**
+         * Baraja las cartas
+         */
         fun barajar(){
             cartas.shuffle()
         }
@@ -46,15 +51,24 @@ class Baraja {
 
         /**
          * devuelve la carta boca abajo
+         * @return carta boca abajo
          */
         fun dameCartaBocaAbajo(): Carta {
             return Carta(Naipes.NINGUNA,Palos.NINGUNA,0,0,R.drawable.facedown)
         }
 
+        /**
+         * @return devuelve el tamanio de las cartas
+         */
         fun tamanioBaraja():Int {
             return cartas.size
         }
 
+        /**
+         * consigue el idDrawable de la carta
+         * @param context contexto
+         * @param nombreCarta nombre de la carta
+         */
         private fun getIdDrawable(context: Context, nombreCarta: String) =
             context.resources.getIdentifier(
                 nombreCarta,

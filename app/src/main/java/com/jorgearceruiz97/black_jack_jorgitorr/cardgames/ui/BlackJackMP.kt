@@ -115,13 +115,17 @@ fun blackLayoutMP(
     }
 
     //imprime los botones
-    botonesMP(blackjackviewmodel = blackjackviewmodel, stopPlayer2 = stopPlayer2, stopPlayer1 = stopPlayer1)
+    botonesMP(blackjackviewmodel = blackjackviewmodel, stopPlayer2 = stopPlayer2)
 
     //imprime los puntos de los jugadores
     puntosJugadoresMP(blackjackviewmodel = blackjackviewmodel)
 
 }
 
+/**
+ * Crea las imagenes de las cartas
+ * @param carta
+ */
 @Composable
 fun creaImagenCartasMP(carta: Carta) {
     Image(
@@ -133,6 +137,9 @@ fun creaImagenCartasMP(carta: Carta) {
     )
 }
 
+/**
+ * @param blackjackviewmodel view model de la carta
+ */
 @Composable
 fun puntosJugadoresMP(blackjackviewmodel: BlackJackViewModel) {
     Row(modifier = Modifier
@@ -152,8 +159,12 @@ fun puntosJugadoresMP(blackjackviewmodel: BlackJackViewModel) {
     }
 }
 
+/**
+ * @param blackjackviewmodel
+ * @param stopPlayer1
+ */
 @Composable
-fun botonesMP(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean, stopPlayer1: Boolean) {
+fun botonesMP(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean) {
     Row(modifier = Modifier
         .fillMaxSize()
         .padding(top = 10.dp),

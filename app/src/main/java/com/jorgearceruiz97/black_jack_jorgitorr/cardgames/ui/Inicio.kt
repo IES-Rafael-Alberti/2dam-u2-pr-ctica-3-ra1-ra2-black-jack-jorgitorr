@@ -41,7 +41,7 @@ fun menuInicio(navController: NavHostController){
         Row(horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(bottom = 50.dp)){
-
+            //1 vs 1
             Button(onClick = { navController.navigate(Routes.blackJack2Players.routes)}) {
                 Text(text = "2 Players")
             }
@@ -49,6 +49,7 @@ fun menuInicio(navController: NavHostController){
                 Text(text = "Highest Card")
 
             }
+            //Maquina
             Button(onClick = { navController.navigate(Routes.BlackJackMP.routes) }) {
                 Text(text = "1 Player")
             }

@@ -119,7 +119,7 @@ fun blackLayout(
     //crea el dibujo de los ganadores
     Row(verticalAlignment = Alignment.Bottom,modifier = Modifier
         .fillMaxWidth()
-        .padding(bottom = 150.dp, start = 50.dp)){
+        .padding(bottom = 150.dp)){
         if(blackjackviewmodel.condicionCrearGanadores()){
             creaDibujoGanadores(playerId = ganador, blackjackviewmodel = blackjackviewmodel,backHandler)
         }

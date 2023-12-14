@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             blackjackviewmodel = blackJackViewModel
                         )}
+                        //Blackjack Jugador vs Máquina
                         composable(Routes.BlackJackMP.routes){
                             BlackJackMP(navController = navController,
                                 blackjackviewmodel = blackJackViewModel)

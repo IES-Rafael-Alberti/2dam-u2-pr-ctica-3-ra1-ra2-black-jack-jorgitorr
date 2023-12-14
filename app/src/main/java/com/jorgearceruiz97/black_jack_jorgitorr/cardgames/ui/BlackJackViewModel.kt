@@ -253,9 +253,9 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
             if(_player2.value!!.puntos>_player1.value!!.puntos && _player2.value!!.puntos<=21){//el jugador 1 se planta cuando tiene mas de 17 puntos
                 return _player2.value!!.playerId
             }else if(_player1.value!!.puntos>_player2.value!!.puntos && _player1.value!!.puntos<=21){
-                return _player1.value!!.playerId
-            }else{
                 dameCartaMP()
+            }else if(_player1.value!!.puntos>_player2.value!!.puntos && _player2.value!!.puntos>=21){
+                return _player1.value!!.playerId
             }
         }
         return 0 //empate

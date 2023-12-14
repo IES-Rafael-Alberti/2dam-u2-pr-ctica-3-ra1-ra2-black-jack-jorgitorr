@@ -1,4 +1,9 @@
 package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data
+
+/**
+ * @property valorMin valor mínimo del naipe
+ * @property valorMax valor máximo del naipe
+ */
 enum class Naipes(val valorMin:Int, val valorMax: Int){
     NINGUNA(0,0),
     AS(1,11),
