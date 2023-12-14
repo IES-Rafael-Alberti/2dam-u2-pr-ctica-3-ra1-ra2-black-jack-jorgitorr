@@ -40,12 +40,6 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     private var _stopPlayer1 = MutableLiveData<Boolean>()
     var stopPlayer1 : LiveData<Boolean> = _stopPlayer1
 
-    private var _stopPedirPlayer1 = MutableLiveData<Boolean>()
-    var stopPedirPlayer1 = _stopPedirPlayer1
-
-    private var _stopPedirPlayer2 = MutableLiveData<Boolean>()
-    var stopPedirPlayer2 = _stopPedirPlayer2
-
     private var _stopPlayer2 = MutableLiveData<Boolean>()
     var stopPlayer2 : LiveData<Boolean> = _stopPlayer2
 
@@ -116,6 +110,9 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     }
 
 
+
+
+
     /**
      * cambia de turno
      */
@@ -124,16 +121,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     }
 
 
-    /**
-     * Desactiva el dame carta si el jugador tiene mas de 21 puntos
-     */
-    fun desactivaDameCarta(playerId: Int){
-        if(playerId==1){
-            _stopPedirPlayer1.value = false
-        }else if(playerId == 2){
-            _stopPedirPlayer2.value = false
-        }
-    }
+
 
     /**
      * devuelve el id del jugador actual segun el turno en el que estemos
@@ -194,32 +182,26 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
      */
     fun obtieneGanador():Int{
         //si la partida ha terminado: que es cuando uno de los dos alcanza o supera los 21 puntos
-        if(_player1.value!!.puntos>21){
+        if(_player1.value!!.puntos>=21){
             pasar(_player1.value!!.playerId)//desactiva al jugador1
-            return _player2.value!!.playerId
-        }else if(_player2.value!!.puntos>21){
+        }else if(_player2.value!!.puntos>=21){
             pasar(_player2.value!!.playerId)//desactiva al jugador2
-            return _player1.value!!.playerId
-        }else if(_stopPlayer1.value!! || _stopPlayer2.value!!){
+        }else if(!_stopPlayer1.value!! && !_stopPlayer2.value!!){
             if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
                 return _player1.value!!.playerId
             }else if(_player1.value!!.puntos==_player2.value!!.puntos){
-                return 0
+                return 0 //empate
             }else if(_player2.value!!.puntos<=21 && _player1.value!!.puntos>_player1.value!!.puntos){
                 return _player2.value!!.playerId
+            }
+        }else{
+            if(!stopPlayer1.value!! && _player2.value!!.puntos <=21){
+                return _player2.value!!.playerId
+            }else if(!stopPlayer2.value!! && _player1.value!!.puntos <= 21){
+                return _player1.value!!.playerId
             }
         }
-        /*ESTA MAL
-        if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
-                return _player1.value!!.playerId
-            }else if(_player1.value!!.puntos==_player2.value!!.puntos){
-                return 0
-            }else if(_player2.value!!.puntos<=21 && _player1.value!!.puntos>_player1.value!!.puntos){
-                return _player2.value!!.playerId
-            }
-         */
-
-        return -1
+        return 0 //empate
     }
 
     /**
@@ -234,8 +216,6 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         creaCartasJugador(2)
         _stopPlayer1.value = true
         _stopPlayer2.value = true
-        _stopPedirPlayer1.value = true
-        _stopPedirPlayer2.value = true
     }
 
     fun creaCartasJugador(playerId: Int){
@@ -244,6 +224,17 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         }else{
             _player2.value!!.listaCartas.add(getCarta())
         }
+    }
+
+    /**
+     * Condicion para cuando se debe crear el texto de los ganadores
+     */
+    fun condicionCrearGanadores():Boolean{
+        return (!_stopPlayer1.value!! && !_stopPlayer2.value!!) || (_player1.value!!.puntos > 21
+                || _player2.value!!.puntos > 21)
+                || (_player1.value!!.puntos == 21 && _player2.value!!.puntos == 21)
+                && (!_stopPlayer1.value!! && _player2.value!!.puntos <= 21)
+                && (!_stopPlayer2.value!! && _player1.value!!.puntos <= 21)
     }
 
 

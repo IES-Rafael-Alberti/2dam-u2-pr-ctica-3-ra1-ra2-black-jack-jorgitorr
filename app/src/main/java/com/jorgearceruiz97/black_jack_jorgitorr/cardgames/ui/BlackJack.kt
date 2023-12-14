@@ -2,6 +2,7 @@ package com.jorgearceruiz97.black_jack_jorgitorr.cardgames.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -23,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -48,7 +49,11 @@ fun BlackJackScreen(navController: NavHostController,
     blackJackLayout(
         blackjackviewmodel =  blackjackviewmodel,
         imagenId = imagenId,
-        descImagen = descImagen)
+        descImagen = descImagen,
+        BackHandler {
+            blackjackviewmodel.restart()
+            navController.popBackStack()
+        })
 
 }
 
@@ -57,18 +62,17 @@ fun BlackJackScreen(navController: NavHostController,
  * parte visual
  */
 @Composable
-fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
-                    imagenId:Int,
-                    descImagen:String){
+fun blackJackLayout(
+    blackjackviewmodel: BlackJackViewModel,
+    imagenId:Int,
+    descImagen:String,
+    backHandler: Unit
+){
 
 
     val turno: Boolean by blackjackviewmodel.turno.observeAsState(initial = true)
     val stopPlayer1: Boolean by blackjackviewmodel.stopPlayer1.observeAsState(true)
     val stopPlayer2: Boolean by blackjackviewmodel.stopPlayer2.observeAsState(true)
-
-    val stopPedir1: Boolean by blackjackviewmodel.stopPedirPlayer1.observeAsState(true)
-    val stopPedir2: Boolean by blackjackviewmodel.stopPedirPlayer2.observeAsState(true)
-
 
     //pedir cartas primer jugador
 
@@ -78,13 +82,8 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Top){
 
-        Button(enabled = stopPedir2, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
+        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
             Text(text = "Pedir carta")
-        }
-
-        //si el jugador1 para su partida
-        if(!stopPlayer1){
-            blackjackviewmodel.pasar(2)//jugador2 no puede pararla
         }
 
         Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.pasar(2) }, colors = ButtonDefaults.buttonColors(Color.White)) {
@@ -93,7 +92,7 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
     }
 
 
-    //cartas jugador 1
+    //cartas jugador 2
     Row (modifier = Modifier
         .fillMaxSize()
         .padding(top = 100.dp),
@@ -108,13 +107,13 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
                 creaDibujoCartasJugador(carta = carta)
             }
         }
-        blackjackviewmodel.sumaPuntos(2)
+        blackjackviewmodel.sumaPuntos(2)//suma Puntos jugador2
 
         Text(text = "${blackjackviewmodel.player2.value!!.puntos}")
     }
 
 
-    //cartas jugador 2
+    //cartas jugador 1
     Row (modifier = Modifier
         .fillMaxSize()
         .padding(top = 100.dp),
@@ -128,38 +127,37 @@ fun blackJackLayout(blackjackviewmodel: BlackJackViewModel,
                 creaDibujoCartasJugador(carta = carta)
             }
         }
-        blackjackviewmodel.sumaPuntos(1)
+        blackjackviewmodel.sumaPuntos(1)//suma Puntos jugador1
 
        //suma puntos del jugador
         Text(text = "${blackjackviewmodel.player1.value!!.puntos}")
     }
 
         //obtiene cartas o pasa del jugador que seamos
-        Row(modifier = Modifier
-            .fillMaxSize()
-            .padding(50.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.Bottom){
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(50.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
 
-            Button(enabled = stopPedir1,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
-                Text(text = "Pedir carta")
-            }
-            //si el jugador 2 para su partida
-            if(!stopPlayer2) {
-                blackjackviewmodel.pasar(1) //jugador 1 no puede pararla
-            }
-
-
-            Button(enabled = stopPlayer1, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
-                Text(text = "Plantarse")
-            }
+        Button(enabled = stopPlayer1,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Text(text = "Pedir carta")
         }
 
+
+        Button(enabled = stopPlayer1, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Text(text = "Plantarse")
+        }
+    }
     //esto me dice quien es el ganador que tengo que pasarlo a un metodo para que me lo muestre en otra pantalla
+    var ganador = blackjackviewmodel.obtieneGanador()
+
     Row(verticalAlignment = Alignment.Bottom,modifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 150.dp, start = 50.dp)){
-        Text(text = "El ganador es ${blackjackviewmodel.obtieneGanador()}") //te dice el ganador
+        if(blackjackviewmodel.condicionCrearGanadores()){
+            creaDibujoGanadores(playerId = ganador, blackjackviewmodel = blackjackviewmodel,backHandler)
+        }
     }
 }
 
@@ -210,11 +208,44 @@ fun creaDibujoCartasJugador(carta: Carta) {
 }
 
 
-fun creaDibujoGanadores(playerId: Int){
-    if(playerId==1){
+/**
+ * Crea un dibujo con el ganador
+ */
+@Composable
+fun creaDibujoGanadores(playerId: Int, blackjackviewmodel: BlackJackViewModel,
+                        BackHandler:Unit){
+    val context = LocalContext.current
+    Column(horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .background(Color.White)
+            .padding(24.dp)
+            .fillMaxWidth()){
+        if(playerId == 0){
+            Text(text = "Empate", color = Color.Black)
+        }else{
+            Text(text = "El ganador es $playerId", color = Color.Black)
+        }
+
+        Row(horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .background(Color.White)
+                .padding(24.dp)
+                .fillMaxWidth()){
+            Button(modifier = Modifier.padding(5.dp),onClick = { blackjackviewmodel.restart() }) {
+                Text(text = "Reiniciar")
+            }
+
+            //no funciona el BackHandler si se lo paso por parámetros no sé por qué
+            /*Button(modifier = Modifier.padding(5.dp),onClick = { BackHandler }) {
+                Text(text = "Finalizar")
+            }*/
+        }
 
     }
+
 }
+
+
 
 
 
