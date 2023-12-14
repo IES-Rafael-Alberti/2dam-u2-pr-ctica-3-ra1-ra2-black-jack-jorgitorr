@@ -109,7 +109,7 @@ fun blackLayoutMP(
     Row(verticalAlignment = Alignment.Bottom,modifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 150.dp, start = 50.dp)){
-        if(blackjackviewmodel.condicionCrearGanadores()){
+        if(blackjackviewmodel.condicionCrearGanadoresMP()){
             creaDibujoGanadoresMP(playerId = ganador, blackjackviewmodel = blackjackviewmodel,backHandler)
         }
     }

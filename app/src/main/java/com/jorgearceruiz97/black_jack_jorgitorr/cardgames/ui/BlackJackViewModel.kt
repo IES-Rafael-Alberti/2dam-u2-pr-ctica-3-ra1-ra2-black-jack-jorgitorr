@@ -220,7 +220,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
 
 
     /**
-     * Obtiene el ganador del juego
+     * Obtiene el ganador del juego Multijugador
      * @return si el jugador tiene mas de 21 puntos gana el PC
      * @return si el PC tiene mas de 21 puntos gana el jugador
      * @return sino se comprueba quien ha ganado
@@ -243,15 +243,19 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
             }
         }else if(!_stopPlayer2.value!!){//si el jugador2 se planta
             if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
-                return _player1.value!!.puntos
+                return _player1.value!!.playerId
             }else if(_player1.value!!.puntos==_player2.value!!.puntos){
                 return 0
+            }else if(_player2.value!!.puntos<=21 && _player2.value!!.puntos>_player1.value!!.puntos){
+                return _player2.value!!.playerId
             }
         }else if(!_stopPlayer1.value!!){//si el jugador2 se planta
-            if(_player2.value!!.puntos>_player1.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
-                return _player2.value!!.puntos
-            }else if(_player2.value!!.puntos>21 && _player1.value!!.puntos<=21){
+            if(_player2.value!!.puntos>_player1.value!!.puntos && _player2.value!!.puntos<=21){//el jugador 1 se planta cuando tiene mas de 17 puntos
+                return _player2.value!!.playerId
+            }else if(_player1.value!!.puntos>_player2.value!!.puntos && _player1.value!!.puntos<=21){
                 return _player1.value!!.playerId
+            }else{
+                dameCartaMP()
             }
         }
         return 0 //empate
@@ -295,6 +299,20 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                 || (_player1.value!!.puntos == 21 && _player2.value!!.puntos == 21)
                 && (!_stopPlayer1.value!! && _player2.value!!.puntos <= 21)
                 && (!_stopPlayer2.value!! && _player1.value!!.puntos <= 21)
+                && (!_stopPlayer1.value!! && !_stopPlayer2.value!!)
+    }
+
+
+    /**
+     * Condicion para cuando debe crear el texto de los ganadores en el modo MP (jugador vs PC)
+     */
+    fun condicionCrearGanadoresMP():Boolean{
+        return (!_stopPlayer1.value!! && !_stopPlayer2.value!!) || (_player1.value!!.puntos > 21
+                || _player2.value!!.puntos > 21)
+                || (_player1.value!!.puntos == 21 && _player2.value!!.puntos == 21)
+                || (!_stopPlayer1.value!! && _player2.value!!.puntos <= 21)
+                || (!_stopPlayer2.value!! && _player1.value!!.puntos <= 21)
+                || (!_stopPlayer2.value!! || !_stopPlayer2.value!!)
     }
 
 
