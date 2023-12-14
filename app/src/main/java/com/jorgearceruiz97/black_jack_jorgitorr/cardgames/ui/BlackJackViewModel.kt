@@ -151,7 +151,7 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
      */
     fun sumaPuntos(playerId: Int){
         if(playerId==_player1.value!!.playerId){
-            _player1.value!!.puntos = 0 // lo vuelvo a poner a cero para
+            _player1.value!!.puntos = 0 // lo vuelvo a poner a 0 porque le sumo todas las cartas
             //suma cartas player1
             for(carta in _player1.value!!.listaCartas){//aqui esta sumando todas las cartas, debería sumar la actual
                 if(_player1.value!!.puntos+carta.puntosMax<=21){

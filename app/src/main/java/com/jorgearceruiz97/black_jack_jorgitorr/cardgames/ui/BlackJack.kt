@@ -74,23 +74,27 @@ fun blackJackLayout(
     val stopPlayer1: Boolean by blackjackviewmodel.stopPlayer1.observeAsState(true)
     val stopPlayer2: Boolean by blackjackviewmodel.stopPlayer2.observeAsState(true)
 
-    //pedir cartas primer jugador
 
-    Row(modifier = Modifier
+    //texto para diferenciar jugadores
+    textoJugadores(blackjackviewmodel = blackjackviewmodel)
+
+    //cartas jugador 1
+    Row (modifier = Modifier
         .fillMaxSize()
-        .padding(top = 10.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Top){
+        .padding(top = 100.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically){
 
-        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
-            Text(text = "Pedir carta")
+        LazyRow {
+            //recorre las cartas del jugador devolviendolas una a una a un meétodo que imprime cada carta
+            //y crea un image para cada una de ellas
+            items(blackjackviewmodel.getCardsJugador(1)){ carta ->
+                creaImagenCartas(carta = carta)
+            }
         }
+        blackjackviewmodel.sumaPuntos(1)//suma Puntos jugador1
 
-        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.pasar(2) }, colors = ButtonDefaults.buttonColors(Color.White)) {
-            Text(text = "Plantarse")
-        }
     }
-
 
     //cartas jugador 2
     Row (modifier = Modifier
@@ -99,73 +103,22 @@ fun blackJackLayout(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top){
 
-        Text(text = "Jugador ${blackjackviewmodel.player2.value!!.playerId}")
         LazyRow {
             //recorre las cartas del jugador devolviendolas una a una a un meétodo que imprime cada carta
             //y crea un image para cada una de ellas
             items(blackjackviewmodel.getCardsJugador(2)){ carta ->
-                creaDibujoCartasJugador(carta = carta)
+                creaImagenCartas(carta = carta)
             }
         }
         blackjackviewmodel.sumaPuntos(2)//suma Puntos jugador2
-
-
-    }
-
-    Row(modifier = Modifier
-        .fillMaxSize()
-        .padding(50.dp, bottom = 500.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Bottom){
-        Text(text = "${blackjackviewmodel.player2.value!!.puntos} puntos")
     }
 
 
-    //cartas jugador 1
-    Row (modifier = Modifier
-        .fillMaxSize()
-        .padding(top = 100.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically){
-        Text(text = "Jugador ${blackjackviewmodel.player1.value!!.playerId}")
-        LazyRow {
-            //recorre las cartas del jugador devolviendolas una a una a un meétodo que imprime cada carta
-            //y crea un image para cada una de ellas
-            items(blackjackviewmodel.getCardsJugador(1)){ carta ->
-                creaDibujoCartasJugador(carta = carta)
-            }
-        }
-        blackjackviewmodel.sumaPuntos(1)//suma Puntos jugador1
 
-    }
 
-        //obtiene cartas o pasa del jugador que seamos
-    Row(modifier = Modifier
-        .fillMaxSize()
-        .padding(50.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Bottom){
-
-        Button(enabled = stopPlayer1,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
-            Text(text = "Pedir carta")
-        }
-
-        Button(enabled = stopPlayer1, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
-            Text(text = "Plantarse")
-        }
-        //suma puntos del jugador
-    }
-
-    Row(modifier = Modifier
-        .fillMaxSize()
-        .padding(50.dp, bottom = 200.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Bottom){
-        Text(text = "${blackjackviewmodel.player1.value!!.puntos} puntos")
-    }
     //esto me dice quien es el ganador que tengo que pasarlo a un metodo para que me lo muestre en otra pantalla
     var ganador = blackjackviewmodel.obtieneGanador()
-
+    //crea el dibujo de los ganadores
     Row(verticalAlignment = Alignment.Bottom,modifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 150.dp, start = 50.dp)){
@@ -173,15 +126,25 @@ fun blackJackLayout(
             creaDibujoGanadores(playerId = ganador, blackjackviewmodel = blackjackviewmodel,backHandler)
         }
     }
+
+    //imprime los botones
+    botones(blackjackviewmodel = blackjackviewmodel, stopPlayer2 = stopPlayer2, stopPlayer1 = stopPlayer1)
+
+    //imprime los puntos de los jugadores
+    puntosJugadores(blackjackviewmodel = blackjackviewmodel)
+
 }
 
 
+/**
+ * Primera pantalla en la que se introducen los nombres de los jugadores
+ * y aquí también quiero poner lo que van a apostar
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun insertarUsuarios(
     blackjackviewmodel: BlackJackViewModel,
     playerId: Int,
-    nombre:String
 ) {
 
     //insertar player 1
@@ -189,7 +152,7 @@ fun insertarUsuarios(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center) {
         Text(text = "Introduce nombre player 1")
-        OutlinedTextField(value = nombre, onValueChange = {
+        OutlinedTextField(value = blackjackviewmodel.player1Name.value!!, onValueChange = {
             blackjackviewmodel.onNickNameChange(playerId,it)})
     }
 
@@ -198,7 +161,7 @@ fun insertarUsuarios(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top) {
         Text(text = "Introduce nombre player 2")
-        OutlinedTextField(value = nombre, onValueChange = {
+        OutlinedTextField(value = blackjackviewmodel.player1Name.value!!, onValueChange = {
             blackjackviewmodel.onNickNameChange(playerId,it)})
     }
     
@@ -211,7 +174,7 @@ fun insertarUsuarios(
  * @param carta
  */
 @Composable
-fun creaDibujoCartasJugador(carta: Carta) {
+private fun creaImagenCartas(carta: Carta) {
     Image(
         modifier = Modifier
             .height(150.dp)
@@ -226,7 +189,7 @@ fun creaDibujoCartasJugador(carta: Carta) {
  * Crea un dibujo con el ganador
  */
 @Composable
-fun creaDibujoGanadores(playerId: Int, blackjackviewmodel: BlackJackViewModel,
+private fun creaDibujoGanadores(playerId: Int, blackjackviewmodel: BlackJackViewModel,
                         BackHandler:Unit){
     val context = LocalContext.current
     Column(horizontalAlignment = Alignment.CenterHorizontally,
@@ -255,6 +218,88 @@ fun creaDibujoGanadores(playerId: Int, blackjackviewmodel: BlackJackViewModel,
             }*/
         }
 
+    }
+
+}
+
+
+@Composable
+private fun puntosJugadores(blackjackviewmodel: BlackJackViewModel){
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(bottom = 500.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+        Text(text = "${blackjackviewmodel.player2.value!!.puntos} puntos")
+    }
+
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(bottom = 200.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+        Text(text = "${blackjackviewmodel.player1.value!!.puntos} puntos")
+    }
+}
+
+@Composable
+private fun botones(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean, stopPlayer1:Boolean){
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 10.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Top){
+
+        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.creaCartasJugador(2)}, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Text(text = "Pedir carta")
+        }
+
+        Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.pasar(2) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Text(text = "Plantarse")
+        }
+    }
+
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(50.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+
+        Button(enabled = stopPlayer1,onClick = { blackjackviewmodel.creaCartasJugador(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Text(text = "Pedir carta")
+        }
+
+        Button(enabled = stopPlayer1, onClick = { blackjackviewmodel.pasar(1) }, colors = ButtonDefaults.buttonColors(Color.White)) {
+            Text(text = "Plantarse")
+        }
+        //suma puntos del jugador
+    }
+
+}
+
+/**
+ * Texto para diferenciar jugadores
+ */
+@Composable
+private fun textoJugadores(blackjackviewmodel: BlackJackViewModel){
+    //jugador 1
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(bottom = 420.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+
+        Text(text = "Jugador ${blackjackviewmodel.player1.value!!.playerId}")
+    }
+
+    //jugador 2
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(bottom = 690.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Bottom){
+
+        Text(text = "Jugador ${blackjackviewmodel.player2.value!!.playerId}")
     }
 
 }
