@@ -229,10 +229,9 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         //player1 => Jugador
         //player2 => PC
 
-        //si la partida ha terminado: que es cuando uno de los dos alcanza o supera los 21 puntos
-        if(_player1.value!!.puntos>=21 && _player2.value!!.puntos <=21){
+        if(_player1.value!!.puntos > 21 && _player2.value!!.puntos <= 21){
             return _player2.value!!.playerId
-        }else if(_player2.value!!.puntos>=21 && _player1.value!!.puntos <= 21){
+        }else if(_player2.value!!.puntos > 21 && _player1.value!!.puntos <= 21){
             return _player1.value!!.playerId
         }else if(!_stopPlayer1.value!! && !_stopPlayer2.value!!){
             if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){
@@ -243,16 +242,16 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                 return 0
             }
         }else if(!_stopPlayer2.value!!){//si el jugador2 se planta
-            if(_player1.value!!.puntos<17 && _player1.value!!.puntos<_player2.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
-                dameCartaMP()
-            }else if(_player1.value!!.puntos>21 && _player2.value!!.puntos<=21){
-                return _player2.value!!.playerId
-            }else if(_player1.value!!.puntos==_player2.value!!.puntos && _player2.value!!.puntos>=17){
+            if(_player1.value!!.puntos<=21 && _player1.value!!.puntos>_player2.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
+                return _player1.value!!.puntos
+            }else if(_player1.value!!.puntos==_player2.value!!.puntos){
                 return 0
-            }else if(_player2.value!!.puntos<=21&&_player1.value!!.puntos<_player2.value!!.puntos){
-                dameCartaMP()
-            }else{
-                return 0;
+            }
+        }else if(!_stopPlayer1.value!!){//si el jugador2 se planta
+            if(_player2.value!!.puntos>_player1.value!!.puntos){//el jugador 1 se planta cuando tiene mas de 17 puntos
+                return _player2.value!!.puntos
+            }else if(_player2.value!!.puntos>21 && _player1.value!!.puntos<=21){
+                return _player1.value!!.playerId
             }
         }
         return 0 //empate

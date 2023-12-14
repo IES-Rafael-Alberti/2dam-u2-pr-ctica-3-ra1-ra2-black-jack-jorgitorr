@@ -214,7 +214,7 @@ fun textoJugadoresMP(blackjackviewmodel: BlackJackViewModel) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Bottom){
 
-        Text(text = "PC")
+        Text(text = "Jugador")
     }
 
     //jugador
@@ -224,6 +224,6 @@ fun textoJugadoresMP(blackjackviewmodel: BlackJackViewModel) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.Bottom){
 
-        Text(text = "Jugador")
+        Text(text = "PC")
     }
 }
