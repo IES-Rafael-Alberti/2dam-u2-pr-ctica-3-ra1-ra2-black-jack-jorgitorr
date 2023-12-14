@@ -114,8 +114,6 @@ fun blackJackLayout(
     }
 
 
-
-
     //esto me dice quien es el ganador que tengo que pasarlo a un metodo para que me lo muestre en otra pantalla
     var ganador = blackjackviewmodel.obtieneGanador()
     //crea el dibujo de los ganadores
@@ -169,9 +167,9 @@ fun insertarUsuarios(
 
 
 /**
- * Te devuelve un nuevo composable de una imagen
+ * Te devuelve un nuevo composable de una imagen con una carta
  * que contiene la carta del juegador
- * @param carta
+ * @param carta le pasa la imagen de la carta que quiero imprimir
  */
 @Composable
 private fun creaImagenCartas(carta: Carta) {
@@ -187,6 +185,8 @@ private fun creaImagenCartas(carta: Carta) {
 
 /**
  * Crea un dibujo con el ganador
+ * @param playerId le pasa el id del ganador
+ * @param blackjackviewmodel
  */
 @Composable
 private fun creaDibujoGanadores(playerId: Int, blackjackviewmodel: BlackJackViewModel,
@@ -223,6 +223,10 @@ private fun creaDibujoGanadores(playerId: Int, blackjackviewmodel: BlackJackView
 }
 
 
+/**
+ * Muestra los puntos obtenidos por los jugadores
+ * @param blackjackviewmodel
+ */
 @Composable
 private fun puntosJugadores(blackjackviewmodel: BlackJackViewModel){
     Row(modifier = Modifier
@@ -242,6 +246,12 @@ private fun puntosJugadores(blackjackviewmodel: BlackJackViewModel){
     }
 }
 
+/**
+ * muestra los botones
+ * @param blackjackviewmodel
+ * @param stopPlayer1 que es un booleano para saber si el jugador1 está parado
+ * @param stopPlayer2 que es un booleano para saber si el jugador2 está parado
+ */
 @Composable
 private fun botones(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean, stopPlayer1:Boolean){
     Row(modifier = Modifier
@@ -279,6 +289,7 @@ private fun botones(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean
 
 /**
  * Texto para diferenciar jugadores
+ * @param blackjackviewmodel
  */
 @Composable
 private fun textoJugadores(blackjackviewmodel: BlackJackViewModel){
