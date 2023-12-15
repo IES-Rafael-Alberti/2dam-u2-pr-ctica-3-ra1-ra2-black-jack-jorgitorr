@@ -128,9 +128,6 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         _player2.value!!.listaCartas.add(getCarta())
     }
 
-
-
-
     /**
      * devuelve el id del jugador actual segun el turno en el que estemos
      */
@@ -143,13 +140,6 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
         }
         return playerId
     }
-
-
-
-
-    /**
-     * comienza un nuevo juego
-     */
 
 
     /**
@@ -212,6 +202,8 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
                 return _player2.value!!.puntos
             }else if(_player2.value!!.puntos>21 && _player1.value!!.puntos<=21){
                 return _player1.value!!.playerId
+            }else if(_player2.value!!.puntos==_player2.value!!.puntos){
+                return 0
             }
         }
 
@@ -303,16 +295,18 @@ class BlackJackViewModel(application:Application):AndroidViewModel(application) 
     }
 
 
+
     /**
      * Condicion para cuando debe crear el texto de los ganadores en el modo MP (jugador vs PC)
      */
     fun condicionCrearGanadoresMP():Boolean{
-        return (!_stopPlayer1.value!! && !_stopPlayer2.value!!) || (_player1.value!!.puntos > 21
-                || _player2.value!!.puntos > 21)
+        return (!_stopPlayer1.value!! && !_stopPlayer2.value!!) || (!_stopPlayer2.value!!)
+                || (_player1.value!!.puntos > 21 || _player2.value!!.puntos > 21)
                 || (_player1.value!!.puntos == 21 && _player2.value!!.puntos == 21)
-                || (!_stopPlayer1.value!! && _player2.value!!.puntos <= 21)
-                || (!_stopPlayer2.value!! && _player1.value!!.puntos <= 21)
-                || (!_stopPlayer2.value!! || !_stopPlayer2.value!!)
+                || (_player2.value!!.puntos>17 && _player1.value!!.puntos<_player2.value!!.puntos)
+                && (!_stopPlayer1.value!! && _player2.value!!.puntos <= 21)
+                && (!_stopPlayer2.value!! && _player1.value!!.puntos <= 21)
+                && (!_stopPlayer1.value!! && !_stopPlayer2.value!!)
     }
 
 

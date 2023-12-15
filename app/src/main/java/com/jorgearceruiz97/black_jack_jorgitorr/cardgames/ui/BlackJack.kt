@@ -159,7 +159,7 @@ fun insertarUsuarios(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top) {
         Text(text = "Introduce nombre player 2")
-        OutlinedTextField(value = blackjackviewmodel.player1Name.value!!, onValueChange = {
+        OutlinedTextField(value = blackjackviewmodel.player2Name.value!!, onValueChange = {
             blackjackviewmodel.onNickNameChange(playerId,it)})
     }
     

@@ -185,10 +185,13 @@ fun creaDibujoGanadoresMP(
         if(playerId == 0){
             Text(text = "Empate", color = Color.Black)
         }else{
-            if(playerId==1){
-                Text(text = "Has ganado", color = Color.Black)
-            }else{
-                Text(text = "Ha ganado el PC", color = Color.Black)
+            when (playerId) {
+                1 -> {
+                    Text(text = "Has ganado", color = Color.Black)
+                }
+                2 -> {
+                    Text(text = "Ha ganado el PC", color = Color.Black)
+                }
             }
         }
 
