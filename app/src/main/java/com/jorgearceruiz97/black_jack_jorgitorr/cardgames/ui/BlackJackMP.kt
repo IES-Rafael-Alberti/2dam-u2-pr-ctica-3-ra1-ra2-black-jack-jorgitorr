@@ -47,11 +47,7 @@ fun BlackJackMP(navController: NavHostController,
     blackLayoutMP(
         blackjackviewmodel =  blackjackviewmodel,
         imagenId = imagenId,
-        descImagen = descImagen,
-        BackHandler {
-            blackjackviewmodel.restart()
-            navController.popBackStack()
-        })
+        descImagen = descImagen)
 
 }
 
@@ -60,12 +56,8 @@ fun blackLayoutMP(
     blackjackviewmodel: BlackJackViewModel,
     imagenId:Int,
     descImagen:String,
-    backHandler: Unit
 ){
 
-
-    val turno: Boolean by blackjackviewmodel.turno.observeAsState(initial = true)
-    val stopPlayer1: Boolean by blackjackviewmodel.stopPlayer1.observeAsState(true)
     val stopPlayer2: Boolean by blackjackviewmodel.stopPlayer2.observeAsState(true)
 
 
@@ -110,7 +102,7 @@ fun blackLayoutMP(
         .fillMaxWidth()
         .padding(bottom = 150.dp, start = 50.dp)){
         if(blackjackviewmodel.condicionCrearGanadoresMP()){
-            creaDibujoGanadoresMP(playerId = ganador, blackjackviewmodel = blackjackviewmodel,backHandler)
+            creaDibujoGanadoresMP(playerId = ganador, blackjackviewmodel = blackjackviewmodel)
         }
     }
 
@@ -167,10 +159,9 @@ fun puntosJugadoresMP(blackjackviewmodel: BlackJackViewModel) {
 fun botonesMP(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean) {
     Row(modifier = Modifier
         .fillMaxSize()
-        .padding(top = 10.dp),
+        .padding(50.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Top){
-
+        verticalAlignment = Alignment.Bottom){
         Button(enabled = stopPlayer2, onClick = { blackjackviewmodel.creaCartasJugadorMP()}, colors = ButtonDefaults.buttonColors(Color.White)) {
             Text(text = "Pedir carta")
         }
@@ -185,9 +176,7 @@ fun botonesMP(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean) {
 fun creaDibujoGanadoresMP(
     playerId: Int,
     blackjackviewmodel: BlackJackViewModel,
-    backHandler: Unit
-) {
-    val context = LocalContext.current
+    ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(Color.White)
@@ -199,7 +188,7 @@ fun creaDibujoGanadoresMP(
             if(playerId==1){
                 Text(text = "Has ganado", color = Color.Black)
             }else{
-                Text(text = "Ha ganado el PC")
+                Text(text = "Ha ganado el PC", color = Color.Black)
             }
         }
 

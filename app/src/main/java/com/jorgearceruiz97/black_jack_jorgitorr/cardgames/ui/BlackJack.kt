@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -22,9 +23,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jorgearceruiz97.black_jack_jorgitorr.cardgames.data.Carta
@@ -68,9 +71,6 @@ fun blackLayout(
     descImagen:String,
     backHandler: Unit
 ){
-
-
-    val turno: Boolean by blackjackviewmodel.turno.observeAsState(initial = true)
     val stopPlayer1: Boolean by blackjackviewmodel.stopPlayer1.observeAsState(true)
     val stopPlayer2: Boolean by blackjackviewmodel.stopPlayer2.observeAsState(true)
 
@@ -265,6 +265,7 @@ private fun botones(blackjackviewmodel: BlackJackViewModel, stopPlayer2: Boolean
         }
     }
 
+    //quiero cambiar la rotacion de estos botones para ponerlos en la dirección del otro jugador
     Row(modifier = Modifier
         .fillMaxSize()
         .padding(50.dp),
